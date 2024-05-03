@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stopwatch</title>
+    <style>
+        body {
+            background-image: url("https://25.media.tumblr.com/tumblr_m8f55hYRyO1qfqip3o1_500.gif");
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease; /* Added transition for smooth background change */
+        }
+
+        #timer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: white; /* Optional: Set the color of the timer */
+        }
+    </style>
+</head>
+<body>
+    <div id="timer">00:00</div>
+
+    <script>
+        var timer = document.getElementById("timer");
+        var elapsedSeconds = 0;
+
+        function updateTimer() {
+            elapsedSeconds++;
+
+            var minutes = Math.floor(elapsedSeconds / 60);
+            var seconds = elapsedSeconds % 60;
+
+            timer.textContent = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+
+            if (elapsedSeconds === 120) {
+                // Change background image
+                document.body.style.backgroundImage = 'url("https://i.pinimg.com/236x/84/d7/02/84d702987effcc9c6570d26ae7ce35d2.jpg")';
+
+                // Play sound effect
+                var audio = new Audio("https://www.myinstants.com/media/sounds/nicos-nextbots-jumpscare-mp3.mp3");
+																									
+                // Event listener for audio canplaythrough event
+                audio.addEventListener("canplaythrough", function() {
+                    audio.play().catch(function(e) {
+                        // Add click event listener to window to play audio
+                        window.addEventListener('click', function() {
+                            audio.play();
+                        }, { once: true });
+                    });
+                });
+
+                // Play sound effect
+                audio.play();
+
+
+                // Revert back to original background after 3 seconds
+                setTimeout(function() {
+                    document.body.style.backgroundImage = 'url("https://25.media.tumblr.com/tumblr_m8f55hYRyO1qfqip3o1_500.gif")';
+                }, 3000);
+            }
+
+            setTimeout(updateTimer, 1000);
+        }
+
+        updateTimer();
+    </script>
+</body>
+</html>
